@@ -9,16 +9,17 @@ checkroot() {
     exit 100;
 }
 
-installIt() {
-    checkroot;
-    find $THISMOD -name '*.ko' | sed -n -e 's@\(^.*\)/\([^_/][^/]*\)$@mv \1/\2 \1/_\2@p' | bash -x;
-    local regex=`echo 's@\(^.*\)/\([^/]*\)$@cp \1/\2' "${THISMOD}"'\2@'`;
-    find `pwd`/ath9k/ -name '*.ko' | sed "$regex"| bash -x;
-}
-
 removeIt() {
     checkroot;
     find $THISMOD -name '*.ko' | sed -n -e 's@\(^.*\)/_\([^/]*\)$@mv \1/_\2 \1/\2@p' | bash -x;
+}
+
+installIt() {
+    checkroot;
+    removeIt;
+    find $THISMOD -name '*.ko' | sed -n -e 's@\(^.*\)/\([^_/][^/]*\)$@mv \1/\2 \1/_\2@p' | bash -x;
+    local regex=`echo 's@\(^.*\)/\([^/]*\)$@cp \1/\2' "${THISMOD}"'\2@'`;
+    find `pwd`/ath9k/ -name '*.ko' | sed "$regex"| bash -x;
 }
 
 buildIt() {
