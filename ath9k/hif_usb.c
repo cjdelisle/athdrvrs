@@ -57,6 +57,8 @@ static struct usb_device_id ath9k_hif_usb_ids[] = {
 	{ USB_DEVICE(0x04da, 0x3904),
 	  .driver_info = AR9280_USB },
 
+  { USB_DEVICE(0x0930, 0x0A08) }, /* Toshiba WLM 20U2 */
+
 	{ USB_DEVICE(0x0cf3, 0x20ff),
 	  .driver_info = STORAGE_DEVICE },
 
