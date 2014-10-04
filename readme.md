@@ -1,9 +1,9 @@
-# Patched Atheros Driver for Toshiba WLT-20u2
+# Patched Atheros Driver for Toshiba WLM-20u2
 
 This is a rip from linux-source-3.13.0 which is patched to do 2 things.
 
 1. Be buildable out-of-tree using `./do`
-2. Has a tiny patch to make it with with the WLT-20u2
+2. Has a tiny patch to make it with with the WLM-20u2
 
 ## To use this
 
