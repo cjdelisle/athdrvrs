@@ -38,6 +38,10 @@ static int ath9k_ps_enable;
 module_param_named(ps_enable, ath9k_ps_enable, int, 0444);
 MODULE_PARM_DESC(ps_enable, "Enable WLAN PowerSave");
 
+static int ath9k_80211n_disable;
+module_param_named(80211n_disable, ath9k_80211n_disable, int, 0644);
+MODULE_PARM_DESC(ps_enable, "Disable mode 802.11n");
+
 #define CHAN2G(_freq, _idx)  { \
 	.center_freq = (_freq), \
 	.hw_value = (_idx), \
@@ -498,7 +502,7 @@ static void setup_ht_cap(struct ath9k_htc_priv *priv,
 	u8 tx_streams, rx_streams;
 	int i;
 
-	ht_info->ht_supported = true;
+	ht_info->ht_supported = !ath9k_80211n_disable;
 	ht_info->cap = IEEE80211_HT_CAP_SUP_WIDTH_20_40 |
 		       IEEE80211_HT_CAP_SM_PS |
 		       IEEE80211_HT_CAP_SGI_40 |
