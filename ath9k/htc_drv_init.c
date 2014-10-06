@@ -40,7 +40,7 @@ MODULE_PARM_DESC(ps_enable, "Enable WLAN PowerSave");
 
 static int ath9k_80211n_disable;
 module_param_named(80211n_disable, ath9k_80211n_disable, int, 0644);
-MODULE_PARM_DESC(ps_enable, "Disable mode 802.11n");
+MODULE_PARM_DESC(80211n_disable, "Disable mode 802.11n");
 
 #define CHAN2G(_freq, _idx)  { \
 	.center_freq = (_freq), \
