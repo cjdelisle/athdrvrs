@@ -11,7 +11,8 @@ checkroot() {
 
 removeIt() {
     checkroot;
-    find $THISMOD -name '*.ko' | sed -n -e 's@\(^.*\)/_\([^/]*\)$@mv \1/_\2 \1/\2@p' | bash -x;
+    find $THISMOD -name '*.ko' | sed -n -e 's@\(^.*\)/_\([^/]*\)$@mv \1/_\2 \1/\2@p' | bash -x && \
+    mv ${MODS}/kernel/drivers/net/wireless/ath/_ath.ko ${MODS}/kernel/drivers/net/wireless/ath/ath.ko;
 }
 
 installIt() {
@@ -20,19 +21,36 @@ installIt() {
     find $THISMOD -name '*.ko' | sed -n -e 's@\(^.*\)/\([^_/][^/]*\)$@mv \1/\2 \1/_\2@p' | bash -x;
     local regex=`echo 's@\(^.*\)/\([^/]*\)$@cp \1/\2' "${THISMOD}"'\2@'`;
     find `pwd`/ath9k/ -name '*.ko' | sed "$regex"| bash -x;
+    mv ${MODS}/kernel/drivers/net/wireless/ath/ath.ko ${MODS}/kernel/drivers/net/wireless/ath/_ath.ko;
+    cp ./ath.ko ${MODS}/kernel/drivers/net/wireless/ath/ath.ko;
 }
 
 buildIt() {
-    echo "#define ATH_USER_REGD 1" | cat - regd.c > /tmp/out && mv /tmp/out regd.c
     make V=1 -C $MODS/build M=`pwd` modules
+}
+
+reloadIt() {
+    checkroot;
+    modprobe -r ath9k_htc && \
+    modprobe -r ath9k && \
+    modprobe -r ath9k_common && \
+    modprobe -r ath9k_hw && \
+    modprobe -r ath && \
+    modprobe ath && \
+    modprobe ath9k_hw && \
+    modprobe ath9k_common && \
+    modprobe ath9k && \
+    modprobe ath9k_htc
 }
 
 
 [ "$1" == "install" ] && installIt && exit 0;
 [ "$1" == "build" ] && buildIt && exit 0;
 [ "$1" == "remove" ] && removeIt && exit 0;
+[ "$1" == "reload" ] && reloadIt && exit 0;
 
 echo 'Usage:'
 echo '    ./do build';
 echo '    ./do install';
 echo '    ./do remove';
+echo '    ./do reload';

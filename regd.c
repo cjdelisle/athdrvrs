@@ -1,3 +1,4 @@
+#define ATH_USER_REGD 1
 /*
  * Copyright (c) 2008-2009 Atheros Communications Inc.
  *
