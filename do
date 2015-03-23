@@ -23,7 +23,7 @@ installIt() {
 }
 
 buildIt() {
-    make -C $MODS/build M=`pwd` modules
+    CFLAGS=-DATH_USER_REGD=yes_i_am_a_grownup make -C $MODS/build M=`pwd` modules
 }
 
 

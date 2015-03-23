@@ -1,9 +1,14 @@
 # Patched Atheros Driver for Toshiba WLM-20u2
 
-This is a rip from linux-source-3.13.0 which is patched to do 2 things.
+This is a rip from linux-source-3.13.0 which is patched to do 3 things.
 
 1. Be buildable out-of-tree using `./do`
 2. Has a tiny patch to make it with with the WLM-20u2
+3. Use your regulatory information instead of the info which is burned in the chip.
+I trust you'll be honest and stay in bounds.
+
+Protip: Default setting is "world" (ban every channel that's illegal in any country)
+setting regulatory info to the country where you actually live will open up more channels.
 
 ## To use this
 
