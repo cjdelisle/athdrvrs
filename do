@@ -23,7 +23,8 @@ installIt() {
 }
 
 buildIt() {
-    CFLAGS=-DATH_USER_REGD=yes_i_am_a_grownup make -C $MODS/build M=`pwd` modules
+    echo "#define ATH_USER_REGD 1" | cat - regd.c > /tmp/out && mv /tmp/out regd.c
+    make V=1 -C $MODS/build M=`pwd` modules
 }
 
 
