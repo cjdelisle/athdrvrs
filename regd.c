@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/* Setting ATH_USER_REGD to 1 causes instability */
-#define ATH_USER_REGD 0
+/* Defining ATH_USER_REGD causes instability */
+//#define ATH_USER_REGD 1
 
 /* Use -DFORCE_DOMAIN=CTRY_FRANCE to set the domain to France */
 #ifdef FORCE_DOMAIN
