@@ -666,7 +666,7 @@ ath_regd_init_wiphy(struct ath_regulatory *reg,
 static void ath_regd_sanitize(struct ath_regulatory *reg)
 {
     if (FORCE_DOMAIN > -1) {
-	    printk(KERN_DEBUG "ath: EEPROM regdomain force set with FORCE_DOMAIN=%d\n", FORCE_DOMAIN);
+	    printk(KERN_DEBUG "ath: EEPROM regdomain using constant FORCE_DOMAIN\n");
 	    reg->current_rd = FORCE_DOMAIN;
         return;
     }

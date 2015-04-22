@@ -26,6 +26,7 @@ installIt() {
 }
 
 buildIt() {
+    [
     make V=1 -C $MODS/build M=`pwd` modules
 }
 
@@ -50,7 +51,9 @@ reloadIt() {
 [ "$1" == "reload" ] && reloadIt && exit 0;
 
 echo 'Usage:'
-echo '    ./do build';
-echo '    ./do install';
-echo '    ./do remove';
-echo '    ./do reload';
+echo '    ./do build                               # Compile';
+echo '    CFLAGS=-DFORCE_DOMAIN=CTRY_FRANCE ./do   # Compile for French regulatory domain, 
+see regd.h for more domains'
+echo '    ./do install                             # Install';
+echo '    ./do remove                              # Uninstall';
+echo '    ./do reload                              # Unload and reload driver';
