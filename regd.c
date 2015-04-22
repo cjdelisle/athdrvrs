@@ -18,8 +18,10 @@
 #define ATH_USER_REGD 0
 
 /* Use -DFORCE_DOMAIN=CTRY_FRANCE to set the domain to France */
-#ifndef FORCE_DOMAIN
-    #define FORCE_DOMAIN -1
+#ifdef FORCE_DOMAIN
+    #define HAS_FORCE_DOMAIN 1
+#else
+    #define HAS_FORCE_DOMAIN 0
 #endif
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
@@ -665,11 +667,6 @@ ath_regd_init_wiphy(struct ath_regulatory *reg,
  */
 static void ath_regd_sanitize(struct ath_regulatory *reg)
 {
-    if (FORCE_DOMAIN > -1) {
-	    printk(KERN_DEBUG "ath: EEPROM regdomain using constant FORCE_DOMAIN\n");
-	    reg->current_rd = FORCE_DOMAIN;
-        return;
-    }
 	if (reg->current_rd != COUNTRY_ERD_FLAG)
 		return;
 	printk(KERN_DEBUG "ath: EEPROM regdomain sanitized\n");
@@ -680,6 +677,7 @@ static int __ath_regd_init(struct ath_regulatory *reg)
 {
 	struct country_code_to_enum_rd *country = NULL;
 	u16 regdmn;
+	int i;
 
 	if (!reg)
 		return -EINVAL;
@@ -695,6 +693,18 @@ static int __ath_regd_init(struct ath_regulatory *reg)
 
 	regdmn = ath_regd_get_eepromRD(reg);
 	reg->country_code = ath_regd_get_default_country(regdmn);
+
+	if (HAS_FORCE_DOMAIN) {
+		for (i = 0; i < ARRAY_SIZE(allCountries); i++) {
+			if (!strcmp(__stringify(FORCE_DOMAIN), allCountries[i].isoName)) {
+				printk(KERN_DEBUG "ath: EEPROM regdomain using constant FORCE_DOMAIN\n");
+				reg->current_rd = allCountries[i].regDmnEnum;
+				reg->country_code = allCountries[i].countryCode;
+				break;
+			}
+		}
+		printk(KERN_DEBUG "ath: EEPROM regdomain now: 0x%0x\n", reg->current_rd);
+	}
 
 	if (reg->country_code == CTRY_DEFAULT &&
 	    regdmn == CTRY_DEFAULT) {
