@@ -1,4 +1,3 @@
-#define ATH_USER_REGD 1
 /*
  * Copyright (c) 2008-2009 Atheros Communications Inc.
  *
@@ -14,6 +13,14 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
+/* Setting ATH_USER_REGD to 1 causes instability */
+#define ATH_USER_REGD 0
+
+/* Use -DFORCE_DOMAIN=CTRY_FRANCE to set the domain to France */
+#ifndef FORCE_DOMAIN
+    #define FORCE_DOMAIN -1
+#endif
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
@@ -658,6 +665,11 @@ ath_regd_init_wiphy(struct ath_regulatory *reg,
  */
 static void ath_regd_sanitize(struct ath_regulatory *reg)
 {
+    if (FORCE_DOMAIN > -1) {
+	    printk(KERN_DEBUG "ath: EEPROM regdomain force set with FORCE_DOMAIN=%d\n", FORCE_DOMAIN);
+	    reg->current_rd = FORCE_DOMAIN;
+        return;
+    }
 	if (reg->current_rd != COUNTRY_ERD_FLAG)
 		return;
 	printk(KERN_DEBUG "ath: EEPROM regdomain sanitized\n");
