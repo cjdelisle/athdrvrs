@@ -1,5 +1,7 @@
 # Patched Atheros Driver for Toshiba WLM-20u2
 
+Status: historical/unmaintained, just use a more recent kernel
+
 This is a rip from linux-source-3.13.0 which is patched to do 3 things.
 
 1. Be buildable out-of-tree using `./do`
